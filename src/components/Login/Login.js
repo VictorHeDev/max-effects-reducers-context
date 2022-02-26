@@ -53,25 +53,27 @@ const Login = (props) => {
     isValid: false,
   });
 
-  // useEffect(() => {
-  //   console.log('EFFECT RUNNING');
-  // }, []);
+  // alias assignment for object destructuring
+  const { isValid: emailIsValid } = emailState;
+  const { isValid: passwordIsValid } = passwordState;
 
-  // useEffect(() => {
-  //   // debounce effect
-  //   const identifier = setTimeout(() => {
-  //     console.log('Checking for validity!');
-  //     setFormIsValid(
-  //       enteredEmail.includes('@') && enteredPassword.trim().length > 6
-  //     );
-  //   }, 500);
+  useEffect(() => {
+    console.log('EFFECT RUNNING');
+  }, []);
 
-  //   // cleanup process runs before the useEffect runs again
-  //   return () => {
-  //     console.log('CLEANUP!');
-  //     clearTimeout(identifier);
-  //   };
-  // }, [setFormIsValid, enteredEmail, enteredPassword]);
+  useEffect(() => {
+    // debounce effect
+    const identifier = setTimeout(() => {
+      console.log('Checking for validity!');
+      setFormIsValid(emailIsValid && passwordIsValid);
+    }, 500);
+
+    // cleanup process runs before the useEffect runs again
+    return () => {
+      console.log('CLEANUP!');
+      clearTimeout(identifier);
+    };
+  }, [emailIsValid, passwordIsValid]);
 
   const emailChangeHandler = (event) => {
     dispatchEmail({
@@ -79,7 +81,7 @@ const Login = (props) => {
       val: event.target.value,
     });
 
-    setFormIsValid(emailState.isValid && passwordState.isValid);
+    // setFormIsValid(emailState.isValid && passwordState.isValid);
   };
 
   const passwordChangeHandler = (event) => {
@@ -88,7 +90,7 @@ const Login = (props) => {
       val: event.target.value,
     });
 
-    setFormIsValid(emailState.isValid && passwordState.isValid);
+    // setFormIsValid(emailState.isValid && passwordState.isValid);
   };
 
   const validateEmailHandler = () => {
